@@ -40,6 +40,7 @@ let gravity = .4;
 
 let gameOver = false;
 let score = 0;
+let highScore = localStorage.getItem("highScore") || 0; // Load High Score from localStorage
 
 window.onload = function() {
   board = document.getElementById("board");
@@ -95,6 +96,10 @@ function update() {
       dinoImg.src = "./IMG/dino-dead.png";
       dinoImg.onload = function() {
         context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
+        if (score > highScore) {
+          highScore = score;
+          localStorage.setItem("highScore", highScore); // Save High Score to localStorage
+        }
       }
     }
   }
@@ -104,6 +109,7 @@ function update() {
   context.font = "20px courier";
   score++;
   context.fillText(score, 5, 20);
+  context.fillText(`High Score: ${highScore}`, 5, 50);
 }
 
 function moveDino(e) {
